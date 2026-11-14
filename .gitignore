@@ -1,0 +1,9 @@
+# never upload these
+node_modules/
+.env
+.env.*
+!.env.example
+server/uploads/
+client/dist/
+*.log
+.DS_Store

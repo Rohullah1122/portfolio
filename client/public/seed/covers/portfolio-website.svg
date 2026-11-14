@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+<defs>
+  <pattern id="g" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#22304a" stroke-width="1"/></pattern>
+  <radialGradient id="glow" cx="78%" cy="50%" r="55%"><stop offset="0" stop-color="#4ade80" stop-opacity=".22"/><stop offset="1" stop-color="#4ade80" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1600" height="900" fill="#0b1220"/>
+<rect width="1600" height="900" fill="url(#g)" opacity=".5"/>
+<rect width="1600" height="900" fill="url(#glow)"/>
+<text x="110" y="310" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="34" fill="#4ade80">// web app</text>
+<text x="104" y="480" font-family="system-ui, Segoe UI, Helvetica, Arial, sans-serif" font-size="104" font-weight="800" fill="#ffffff"><tspan x="104" dy="-60">Portfolio</tspan><tspan x="104" dy="112">Website</tspan></text>
+<text x="110" y="612" font-family="system-ui, Segoe UI, Helvetica, Arial, sans-serif" font-size="36" fill="#8a9ab5">React · Express · PostgreSQL</text>
+<g transform="translate(900 220) scale(.9)">
+  <rect width="640" height="460" rx="20" fill="#111b2e" stroke="#22304a" stroke-width="6"/>
+  <circle cx="34" cy="32" r="8" fill="#ff6b6b"/><circle cx="60" cy="32" r="8" fill="#f5b544"/><circle cx="86" cy="32" r="8" fill="#4ade80"/>
+  <rect x="0" y="62" width="640" height="3" fill="#22304a"/>
+  <rect x="40" y="100" width="260" height="28" rx="14" fill="#e6edf7" opacity=".85"/>
+  <rect x="40" y="144" width="360" height="16" rx="8" fill="#8a9ab5" opacity=".6"/>
+  <rect x="40" y="186" width="120" height="40" rx="12" fill="#4ade80"/>
+  <rect x="40" y="266" width="176" height="150" rx="16" fill="#172338"/>
+  <rect x="232" y="266" width="176" height="150" rx="16" fill="#172338"/>
+  <rect x="424" y="266" width="176" height="150" rx="16" fill="#172338"/>
+  <rect x="460" y="96" width="140" height="140" rx="70" fill="#4ade80" opacity=".25"/>
+</g>
+</svg>

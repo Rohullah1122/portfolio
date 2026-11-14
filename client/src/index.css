@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --color-ink: #0b1220;
+  --color-panel: #111b2e;
+  --color-raise: #172338;
+  --color-line: #22304a;
+  --color-mint: #4ade80;
+  --color-mute: #8a9ab5;
+  --color-key: #f5b544;
+  --color-link: #6aa8ff;
+}
+
+/* One page background everywhere, so no white can ever show through. */
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; background: var(--color-ink); }
+body { margin: 0; background: var(--color-ink); color: #e6edf7; font-family: var(--font-sans); overflow-x: clip; -webkit-font-smoothing: antialiased; }
+:focus-visible { outline: 2px solid var(--color-mint); outline-offset: 2px; }
+
+.bp-grid {
+  background-image: linear-gradient(var(--color-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 25%, transparent 72%);
+}
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}

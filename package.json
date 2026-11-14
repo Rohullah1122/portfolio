@@ -1,0 +1,6 @@
+{
+  "name": "rohullah-portfolio",
+  "private": true,
+  "type": "module",
+  "description": "Root of the portfolio: client (React) and server (Express). Used by Vercel."
+}
