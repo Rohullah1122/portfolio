@@ -1,0 +1,13 @@
+flowchart LR
+    V(["Visitor"]) --> W["React site<br/>Vite · Tailwind · React Router"]
+    A(["Admin"]) --> AD["Admin panel<br/>/admin"]
+    W -->|"/api/portfolio · /api/messages · /api/chat"| API
+    AD -->|"/api/admin/* + JWT"| API
+    subgraph Vercel
+        W
+        AD
+        API["Express API<br/>one Vercel function"]
+    end
+    API --> DB[("Neon PostgreSQL<br/>projects · skills · messages")]
+    API --> BL[("Vercel Blob<br/>images · resume")]
+    API -.->|optional| AI["Claude API<br/>AI assistant"]

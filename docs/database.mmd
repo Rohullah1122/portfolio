@@ -1,0 +1,63 @@
+erDiagram
+    direction TB
+    projects ||--o{ project_tags : "has"
+    projects ||--o{ project_images : "has"
+    projects ||--o{ project_features : "has"
+    projects ||--o{ erd_tables : "designs"
+    erd_tables ||--o{ erd_columns : "has"
+    skill_groups ||--o{ skills : "has"
+    projects {
+        int id PK
+        varchar slug UK
+        varchar name
+        varchar category
+        varchar status
+        text live_url
+    }
+    project_tags {
+        int id PK
+        int project_id FK
+        varchar tag
+    }
+    project_images {
+        int id PK
+        int project_id FK
+        varchar kind
+        text url
+    }
+    project_features {
+        int id PK
+        int project_id FK
+        text content
+    }
+    erd_tables {
+        int id PK
+        int project_id FK
+        varchar name
+    }
+    erd_columns {
+        int id PK
+        int table_id FK
+        varchar name
+        varchar data_type
+    }
+    skill_groups {
+        int id PK
+        varchar title
+    }
+    skills {
+        int id PK
+        int group_id FK
+        varchar name
+    }
+    messages {
+        int id PK
+        varchar name
+        varchar email
+        boolean is_read
+    }
+    admins {
+        int id PK
+        varchar email UK
+        varchar password_hash
+    }

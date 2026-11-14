@@ -1,4 +1,52 @@
-# Portfolio: React + Express + PostgreSQL + AI chat
+# Rohullah Hussaini · Portfolio
+
+**Live:** [rohullah-hussaini.vercel.app](https://rohullah-hussaini.vercel.app)
+
+A full stack portfolio where every project, skill and profile detail comes from a PostgreSQL database and is edited from a private admin panel. Each project has its own case study page with screenshots, UML diagrams, an interactive database diagram and the architecture. An AI assistant answers visitors' questions using only the portfolio's own data.
+
+![Home page](docs/screenshots/home.webp)
+
+## Screenshots
+
+| Projects | Case study |
+| --- | --- |
+| ![Projects](docs/screenshots/projects.webp) | ![Case study](docs/screenshots/case_study.webp) |
+| **Interactive database diagrams** | **AI assistant** |
+| ![ER diagram viewer](docs/screenshots/erd_viewer.webp) | ![AI assistant](docs/screenshots/ai_assistant.webp) |
+| **Skills** | **Admin dashboard** |
+| ![Skills](docs/screenshots/skills.webp) | ![Admin dashboard](docs/screenshots/admin_dashboard.webp) |
+
+## Features
+
+- **Projects** with filters (web / mobile), each with a case study: overview, screenshots, UML, ER diagram, architecture and live demo
+- **Admin panel** to add and edit projects, skills, experience and profile, with image and resume uploads
+- **Contact form** saved to the database, with read and unread messages in the admin
+- **AI assistant** (Claude) that answers from the portfolio data, with a fallback when no API key is set
+- **Security:** bcrypt passwords, JWT admin sessions, rate limiting on login, chat and contact
+
+## Tech stack
+
+| Part | Used |
+| --- | --- |
+| Frontend | React 18, Vite, Tailwind CSS 4, React Router |
+| Backend | Node.js, Express, JWT, bcrypt |
+| Database | PostgreSQL (Neon on Vercel, pgAdmin locally) |
+| Files | Vercel Blob (uploads) |
+| Hosting | Vercel: static site + one serverless function for the API |
+
+## Architecture
+
+![Architecture](docs/architecture.png)
+
+## Database design
+
+The main tables. The full schema is in [`database/schema.sql`](database/schema.sql).
+
+![Database diagram](docs/database.png)
+
+---
+
+## Run it on your computer
 
 ```
 client/    the website and admin panel (React + Vite)      runs on http://localhost:5173
@@ -10,7 +58,7 @@ You need: **Node.js 18.11+** (nodejs.org, LTS) and **PostgreSQL 12+** (postgresq
 
 ---
 
-## 1. Create the database in pgAdmin
+### 1. Create the database in pgAdmin
 
 1. Open pgAdmin and connect to your server (it asks for the `postgres` password you chose at install).
 2. Right-click **Databases > Create > Database…**, name it `portfolio`, click **Save**.
@@ -29,7 +77,7 @@ If you set up the database before, **don't** run `portfolio_full.sql` again (it 
 
 It adds the Experience table and resume link, switches project tabs to Web / Mobile / Other, and replaces the sample projects with your real ones. Your admin account, messages and chat history stay. Running it twice is safe.
 
-## 2. Start the server
+### 2. Start the server
 
 Open a terminal in the `server` folder:
 
@@ -51,7 +99,7 @@ npm run dev
 
 You should see `API running on http://localhost:4000`. Check http://localhost:4000/api/health. It should show `{"ok":true}`.
 
-## 3. Start the website
+### 3. Start the website
 
 Open a **second** terminal in the `client` folder:
 
@@ -67,7 +115,7 @@ In the admin you can also add your **Experience** (jobs and education, shown as 
 
 Anything you save in the admin is written to PostgreSQL and shows on the website straight away. Contact form messages land in **Admin > Messages**.
 
-## 4. AI chat (optional)
+### 4. AI chat (optional)
 
 The chat bubble on your site answers visitors' questions about you, using your own profile, skills and projects as its only source of facts.
 
@@ -75,7 +123,7 @@ The chat bubble on your site answers visitors' questions about you, using your o
 - **With a key** it uses Claude. Create a key at https://console.anthropic.com (API billing is separate from a claude.ai subscription), put it in `server\.env` as `ANTHROPIC_API_KEY=...`, and restart the server. The key stays on the server and never reaches the browser.
 - Limits: 20 questions per 10 minutes per visitor. Conversations are saved in the `chat_messages` table.
 
-## Troubleshooting
+### Troubleshooting
 
 | Message | Fix |
 |---|---|
