@@ -94,8 +94,8 @@ The repo is ready for Vercel: the React site is built from `client/`, and the Ex
 1. In Vercel, **Add New > Project** and import this repo. Leave the settings as they are (`vercel.json` has them).
 2. In the project, open **Storage** and create a **Neon (Postgres)** database and a **Blob** store, both connected to this project. They add `DATABASE_URL` and `BLOB_READ_WRITE_TOKEN` for you.
 3. In **Settings > Environment Variables**, add:
-   - `JWT_SECRET`: any random text of 32+ characters
    - `ADMIN_EMAIL` and `ADMIN_PASSWORD`: your admin login (created on the first deploy)
+   - `JWT_SECRET` is optional on Vercel: if you leave it out, the database setup makes one
    - `ANTHROPIC_API_KEY` (optional, for the AI chat)
 4. **Deployments > Redeploy.** The site is live at your `.vercel.app` address, and the admin is at `/admin`.
 

@@ -12,7 +12,17 @@ import { deleteProject, httpError, listMessages, loadPortfolio, saveExperience, 
 import { chatReply, logChat, refreshPortfolio } from "./ai.js";
 
 const { JWT_SECRET, CLIENT_ORIGIN = "http://localhost:5173", BLOB_READ_WRITE_TOKEN, VERCEL } = process.env;
-export const setupok = Boolean(process.env.DATABASE_URL && JWT_SECRET && JWT_SECRET.length >= 32 && !JWT_SECRET.startsWith("change-this"));
+const envsecret = JWT_SECRET && JWT_SECRET.length >= 32 && !JWT_SECRET.startsWith("change-this") ? JWT_SECRET : null;
+// local: needs JWT_SECRET in .env. Vercel: if JWT_SECRET isn't set, the secret made by the database setup is used.
+export const setupok = Boolean(process.env.DATABASE_URL && (envsecret || VERCEL));
+
+let jwtsecret = envsecret;
+const getsecret = async () => {
+  if (jwtsecret) return jwtsecret;
+  const r = await pool.query("SELECT value FROM app_settings WHERE key = 'jwt_secret'");
+  if (!r.rows[0]) throw httpError(500, "Login is not set up yet. Redeploy so the database setup can run.");
+  return (jwtsecret = r.rows[0].value);
+};
 
 // on Vercel the disk is read-only, so uploads go to Vercel Blob; on your computer they go to server/uploads
 const uploadsDir = VERCEL ? path.join("/tmp", "uploads") : path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "uploads");
@@ -38,9 +48,11 @@ app.use(express.json({ limit: "8mb" }));
 app.use("/api", (req, res, next) => (setupok ? next() : res.status(500).json({ error: "Server setup problem: DATABASE_URL and a JWT_SECRET of 32+ characters are needed." })));
 app.use("/uploads", express.static(uploadsDir, { maxAge: "7d" }));
 
-function requireAdmin(req, res, next) {
+async function requireAdmin(req, res, next) {
   const token = (req.headers.authorization || "").replace(/^Bearer /, "");
-  try { req.admin = jwt.verify(token, JWT_SECRET); next(); }
+  let secret;
+  try { secret = await getsecret(); } catch (e) { return next(e); }
+  try { req.admin = jwt.verify(token, secret); next(); }
   catch { res.status(401).json({ error: "Please sign in again." }); }
 }
 
@@ -73,7 +85,7 @@ app.post("/api/auth/login", limit("login", 10, 900_000), h(async (req, res) => {
   const r = await pool.query("SELECT id, email, password_hash FROM admins WHERE email = $1", [email]);
   const ok = await bcrypt.compare(password, r.rows[0]?.password_hash || DUMMY_HASH);
   if (!r.rows[0] || !ok) throw httpError(401, "Wrong email or password.");
-  res.json({ token: jwt.sign({ sub: r.rows[0].id, email: r.rows[0].email }, JWT_SECRET, { expiresIn: "7d" }) });
+  res.json({ token: jwt.sign({ sub: r.rows[0].id, email: r.rows[0].email }, await getsecret(), { expiresIn: "7d" }) });
 }));
 
 // ---------- admin ----------
